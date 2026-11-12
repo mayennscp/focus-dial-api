@@ -2,7 +2,7 @@ import { buildApp } from './app.ts';
 import { loadConfig } from './config.ts';
 
 const config = loadConfig();
-const app = await buildApp({ logger: true });
+const app = await buildApp({ logger: true, dbPath: config.dbPath });
 
 const shutdown = async () => {
   await app.close();
