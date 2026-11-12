@@ -10,7 +10,8 @@
   "scripts": {
     "dev": "node --watch --disable-warning=ExperimentalWarning src/server.ts",
     "start": "node --disable-warning=ExperimentalWarning src/server.ts",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "test": "node --test --disable-warning=ExperimentalWarning \"test/**/*.test.ts\""
   },
   "dependencies": {
     "@fastify/cors": "^11.4.1",
