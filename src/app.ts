@@ -5,6 +5,7 @@ import Fastify, { type FastifyInstance } from 'fastify';
 
 import { createSessionsRepo, openDatabase } from './db.ts';
 import { registerSessionRoutes } from './routes/sessions.ts';
+import { registerStatsRoutes } from './routes/stats.ts';
 import { errorHandler } from './validation.ts';
 
 export type AppOptions = {
@@ -37,6 +38,7 @@ export async function buildApp(
 
   app.get('/health', async () => ({ status: 'ok' }));
   registerSessionRoutes(app, sessions);
+  registerStatsRoutes(app, sessions);
 
   return app;
 }

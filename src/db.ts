@@ -57,6 +57,9 @@ export function createSessionsRepo(db: DatabaseSync) {
      ORDER BY finished_at DESC
      LIMIT ?`
   );
+  const allStmt = db.prepare(
+    'SELECT minutes, finished_at FROM sessions ORDER BY finished_at'
+  );
   const deleteStmt = db.prepare('DELETE FROM sessions WHERE id = ?');
 
   return {
@@ -70,6 +73,13 @@ export function createSessionsRepo(db: DatabaseSync) {
       limit = 500,
     }: SessionQuery = {}): Session[] {
       return (listStmt.all(from, to, limit) as SessionRow[]).map(toSession);
+    },
+
+    /** Lightweight rows (no ids) for aggregating statistics. */
+    listAll(): Pick<Session, 'minutes' | 'finishedAt'>[] {
+      return (
+        allStmt.all() as Pick<SessionRow, 'minutes' | 'finished_at'>[]
+      ).map((row) => ({ minutes: row.minutes, finishedAt: row.finished_at }));
     },
 
     remove(id: number): boolean {
